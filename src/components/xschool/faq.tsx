@@ -39,13 +39,17 @@ export function Faq({ title, items }: FaqProps) {
                     <span className="faq__symbol" aria-hidden="true">{isOpen ? "−" : "+"}</span>
                   </button>
                 </h3>
-                {isOpen && (
+                <div
+                  id={answerId}
+                  className={`faq__answer-panel${isOpen ? " is-open" : ""}`}
+                  aria-hidden={!isOpen}
+                  inert={!isOpen}
+                >
                   <div
-                    id={answerId}
                     className="faq__answer rich-text"
                     dangerouslySetInnerHTML={{ __html: item.answer }}
                   />
-                )}
+                </div>
               </div>
             );
           })}

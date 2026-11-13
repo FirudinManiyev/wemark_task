@@ -1,3 +1,5 @@
+import { ScrollToTop } from "./scroll-to-top";
+
 const sitemap = ["Case Studies", "Services", "About", "Career", "Blog", "News", "Vacancies"];
 const social = ["Instagram", "LinkedIn", "YouTube"];
 
@@ -21,14 +23,14 @@ export function SiteFooter() {
           <h2>For Partnerships</h2>
           <p>partnership@wemark.az<br />+994 51 555 55 55</p>
         </div>
-        <span className="site-footer__up" aria-hidden="true">↑</span>
+        <ScrollToTop variant="desktop" />
       </div>
       <div className="site-footer__wordmark" aria-hidden="true">wemark</div>
       <div className="site-footer__bottom">
         <span>COPYRIGHT © 2024 WEMARK</span>
         <span className="site-footer__terms">TERMS &amp; PRIVACY</span>
         <span className="site-footer__language">◎ &nbsp; AZƏRBAYCAN DİLİ</span>
-        <span className="site-footer__back">BACK TO TOP ↑</span>
+        <ScrollToTop variant="mobile" />
       </div>
     </footer>
   );

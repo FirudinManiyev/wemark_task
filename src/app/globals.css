@@ -18,10 +18,15 @@ html {
 
 body {
   margin: 0;
+  overflow-x: clip;
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-hoves), Arial, sans-serif;
   font-weight: 400;
+}
+
+main {
+  min-width: 0;
 }
 
 button {
@@ -48,16 +53,41 @@ button {
 
 .site-header {
   @apply flex items-center justify-between;
-  position: absolute;
-  z-index: 3;
+  position: fixed;
+  z-index: 20;
   inset: 0 0 auto;
   padding: 44px var(--section-gutter);
   color: #f3f3f2;
   font-size: 22px;
   line-height: 1;
+  transition: inset .35s ease, padding .35s ease, border-radius .35s ease, background-color .35s ease, box-shadow .35s ease;
 }
 
-.site-header__logo {
+.site-header[data-scrolled="true"] {
+  inset: 16px var(--section-gutter) auto;
+  border-radius: 999px;
+  padding: 18px 28px;
+  background: rgb(21 21 25 / 90%);
+  box-shadow: 0 12px 36px rgb(0 0 0 / 14%);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.site-header button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  white-space: nowrap;
+  transition: color .25s ease, opacity .25s ease, transform .25s ease, text-underline-offset .25s ease;
+}
+
+.site-header button:active {
+  transform: scale(.96);
+}
+
+.site-header .site-header__logo {
   font-family: var(--font-firs-neue), Arial, sans-serif;
   font-size: 34px;
   font-weight: 500;
@@ -73,6 +103,7 @@ button {
 .site-header__talk {
   text-decoration: underline;
   text-underline-offset: 6px;
+  text-decoration-thickness: 1px;
 }
 
 .site-header__menu {
@@ -135,14 +166,14 @@ button {
   margin-bottom: 12px;
   border-bottom: 1px solid currentColor;
   padding-bottom: 4px;
-  font-size: 22px;
+  font-size: 20px;
 }
 
 .about__copy {
   max-width: 1320px;
   margin-top: 96px;
-  font-size: clamp(22px, 2.1vw, 30px);
-  line-height: 1.48;
+  font-size: clamp(21px, 1.95vw, 27px);
+  line-height: 1.5;
 }
 
 .about__copy p + p {
@@ -152,12 +183,20 @@ button {
 .about-carousel {
   @apply flex;
   gap: 48px;
-  width: 100vw;
+  width: calc(100% + 2 * var(--section-gutter));
   margin: 76px calc(-1 * var(--section-gutter)) 0;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   overscroll-behavior-inline: contain;
+  cursor: grab;
+  user-select: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.about-carousel.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
 }
 
 .about-carousel::-webkit-scrollbar {
@@ -166,6 +205,9 @@ button {
 
 .about-carousel:focus-visible,
 .faq__question:focus-visible,
+.site-header button:focus-visible,
+.site-footer__up:focus-visible,
+.site-footer__back:focus-visible,
 .page-state button:focus-visible {
   outline: 3px solid #e55846;
   outline-offset: 4px;
@@ -182,6 +224,8 @@ button {
 
 .about-carousel__slide img {
   object-fit: cover;
+  pointer-events: none;
+  transition: transform .5s ease, filter .5s ease;
 }
 
 .founder {
@@ -207,6 +251,7 @@ button {
 .founder__portrait img {
   object-fit: cover;
   filter: grayscale(1);
+  transition: transform .5s ease, filter .5s ease;
 }
 
 .founder__caption {
@@ -226,7 +271,7 @@ button {
 .founder__body h3 {
   max-width: 500px;
   margin: 0 0 35px;
-  font-size: 34px;
+  font-size: 31px;
   font-weight: 400;
   line-height: 1.4;
   text-transform: uppercase;
@@ -234,13 +279,13 @@ button {
 
 .founder__body p {
   max-width: 730px;
-  font-size: clamp(22px, 2.05vw, 29px);
-  line-height: 1.47;
+  font-size: clamp(21px, 1.9vw, 26px);
+  line-height: 1.5;
 }
 
 .programs {
   padding-top: 245px;
-  padding-bottom: 220px;
+  padding-bottom: 180px;
 }
 
 .programs__content {
@@ -249,8 +294,8 @@ button {
 }
 
 .rich-text {
-  font-size: clamp(21px, 2.1vw, 30px);
-  line-height: 1.5;
+  font-size: clamp(20px, 1.95vw, 27px);
+  line-height: 1.52;
 }
 
 .rich-text p + p,
@@ -262,7 +307,7 @@ button {
 
 .rich-text h3 {
   margin: 120px 0 42px;
-  font-size: clamp(28px, 2.7vw, 38px);
+  font-size: clamp(27px, 2.5vw, 35px);
   font-weight: 500;
   line-height: 1.2;
   text-transform: uppercase;
@@ -303,7 +348,7 @@ button {
   @apply flex items-center;
   width: max-content;
   height: 100%;
-  animation: marquee-scroll 28s linear infinite;
+  animation: marquee-scroll 30s linear infinite;
 }
 
 .marquee__track--reverse {
@@ -319,6 +364,7 @@ button {
   line-height: 1;
   text-transform: uppercase;
   white-space: nowrap;
+  transition: color .3s ease, text-shadow .3s ease;
 }
 
 .marquee__star {
@@ -331,7 +377,7 @@ button {
 
 .faq {
   padding-top: 220px;
-  padding-bottom: 195px;
+  padding-bottom: 150px;
 }
 
 .faq__title {
@@ -339,7 +385,7 @@ button {
 }
 
 .faq__items {
-  margin-top: 115px;
+  margin-top: 100px;
 }
 
 .faq__item {
@@ -359,26 +405,48 @@ button {
   gap: 20px;
   width: 100%;
   border: 0;
-  padding: 40px 0;
+  padding: 35px 0;
   background: transparent;
   color: inherit;
-  font-size: clamp(22px, 2vw, 29px);
+  font-size: clamp(21px, 1.85vw, 26px);
   font-weight: 400;
   text-align: left;
+  transition: color .25s ease, padding-left .25s ease;
 }
 
 .faq__symbol {
   flex: none;
   color: #767676;
-  font-size: 38px;
+  font-size: 35px;
   font-weight: 400;
   line-height: .8;
+  transition: color .25s ease, transform .3s ease;
+}
+
+.faq__question[aria-expanded="true"] .faq__symbol {
+  transform: rotate(180deg);
+}
+
+.faq__answer-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  padding-bottom: 0;
+  opacity: 0;
+  transition: grid-template-rows .4s ease, padding-bottom .4s ease, opacity .3s ease;
+}
+
+.faq__answer-panel.is-open {
+  grid-template-rows: 1fr;
+  padding-bottom: 55px;
+  opacity: 1;
 }
 
 .faq__answer {
+  min-height: 0;
   max-width: 1220px;
-  padding-bottom: 70px;
+  overflow: hidden;
   color: #868686;
+  font-size: clamp(19px, 1.8vw, 25px);
 }
 
 .site-footer {
@@ -393,13 +461,13 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr 1.35fr 1.45fr;
   gap: 36px;
-  min-height: 350px;
+  min-height: 315px;
   padding-right: 50px;
 }
 
 .site-footer__columns h2 {
   margin: 0 0 25px;
-  font-size: 25px;
+  font-size: 23px;
   font-weight: 400;
 }
 
@@ -408,7 +476,7 @@ button {
   display: block;
   margin: 0 0 8px;
   color: #77777d;
-  font-size: 21px;
+  font-size: 19px;
   line-height: 1.5;
 }
 
@@ -420,6 +488,10 @@ button {
   font-size: 100px;
   font-weight: 400;
   line-height: 1;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  transition: color .3s ease, transform .3s ease;
 }
 
 .site-footer__wordmark {
@@ -447,6 +519,27 @@ button {
 
 .site-footer__back {
   display: none;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  transition: color .3s ease, transform .3s ease;
+}
+
+@media (hover: hover) {
+  .site-header__logo:hover { opacity: .72; transform: translateY(-2px); }
+  .site-header__navigation button:hover { color: #ffd5c9; transform: translateY(-2px); }
+  .site-header__talk:hover { color: #ffd5c9; text-underline-offset: 10px; }
+  .site-header__menu:hover { color: #ffd5c9; transform: translateY(-2px); }
+  .about-carousel__slide:hover img { transform: scale(1.035); filter: saturate(1.08); }
+  .founder__portrait:hover img { transform: scale(1.025); filter: grayscale(.8); }
+  .marquee__item:hover { color: #ef503d; text-shadow: 0 0 18px rgb(239 80 61 / 12%); }
+  .faq__question:hover { color: #4f4b50; padding-left: 8px; }
+  .faq__question:hover .faq__symbol { color: #ef503d; }
+  .site-footer__up:hover { color: #f4f4f4; transform: translateY(-6px); }
+  .site-footer__back:hover { color: #f4f4f4; transform: translateY(-3px); }
+  .page-state button:hover { background: var(--foreground); color: var(--background); transform: translateY(-2px); }
 }
 
 .page-state {
@@ -464,6 +557,7 @@ button {
 .page-state button {
   border: 1px solid currentColor;
   padding: 12px 20px;
+  transition: background-color .25s ease, color .25s ease, transform .25s ease;
 }
 
 @media (max-width: 1100px) {
@@ -481,6 +575,7 @@ button {
 @media (max-width: 900px) {
   .site-header__navigation { display: none; }
   .site-header__talk { margin-left: auto; }
+  .site-header__menu { display: block; margin-left: 24px; }
 }
 
 @media (max-width: 767px) {
@@ -496,7 +591,12 @@ button {
     font-size: 16px;
   }
 
-  .site-header__logo { font-size: 27px; }
+  .site-header[data-scrolled="true"] {
+    inset: 10px 12px auto;
+    padding: 15px 18px;
+  }
+
+  .site-header .site-header__logo { font-size: 27px; }
   .site-header__talk { display: none; }
   .site-header__menu { display: block; }
 
@@ -519,8 +619,8 @@ button {
   .about__link { display: none; }
   .about__copy {
     margin-top: 42px;
-    font-size: 18px;
-    line-height: 1.45;
+    font-size: 17px;
+    line-height: 1.5;
   }
 
   .about-carousel {
@@ -546,23 +646,23 @@ button {
   .founder__body h3 {
     max-width: 250px;
     margin-bottom: 40px;
-    font-size: 20px;
+    font-size: 19px;
   }
-  .founder__body p { font-size: 18px; line-height: 1.45; }
+  .founder__body p { font-size: 17px; line-height: 1.5; }
 
   .programs {
     padding-top: 68px;
-    padding-bottom: 140px;
+    padding-bottom: 115px;
   }
   .programs__content { margin-top: 44px; }
-  .rich-text { font-size: 18px; line-height: 1.45; }
+  .rich-text { font-size: 17px; line-height: 1.5; }
   .rich-text p + p,
   .rich-text p + ul,
   .rich-text ul + p,
   .rich-text ul + h3 { margin-top: 24px; }
   .rich-text h3 {
     margin: 95px 0 42px;
-    font-size: 24px;
+    font-size: 23px;
   }
   .rich-text ul,
   .rich-text ol { padding-left: 28px; }
@@ -577,16 +677,17 @@ button {
 
   .faq {
     padding-top: 95px;
-    padding-bottom: 110px;
+    padding-bottom: 80px;
   }
   .faq__title { font-size: 36px; }
-  .faq__items { margin-top: 65px; }
+  .faq__items { margin-top: 58px; }
   .faq__question {
-    padding: 28px 0;
-    font-size: 18px;
+    padding: 25px 0;
+    font-size: 17px;
   }
-  .faq__symbol { font-size: 30px; }
-  .faq__answer { padding-bottom: 28px; font-size: 16px; }
+  .faq__symbol { font-size: 28px; }
+  .faq__answer-panel.is-open { padding-bottom: 26px; }
+  .faq__answer { font-size: 15px; }
 
   .site-footer { padding-top: 65px; }
   .site-footer__columns {
@@ -595,9 +696,9 @@ button {
     min-height: 0;
     padding-right: 0;
   }
-  .site-footer__columns h2 { margin-bottom: 20px; font-size: 18px; }
+  .site-footer__columns h2 { margin-bottom: 20px; font-size: 17px; }
   .site-footer__columns span:not(.site-footer__up),
-  .site-footer__columns p { font-size: 15px; }
+  .site-footer__columns p { font-size: 14px; }
   .site-footer__office { grid-column: 1 / -1; grid-row: 4; }
   .site-footer__partnerships { grid-column: 1 / -1; grid-row: 3; }
   .site-footer__up { display: none; }
@@ -620,4 +721,15 @@ button {
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .marquee__track { animation: none; }
+  .site-header,
+  .site-header button,
+  .about-carousel__slide img,
+  .founder__portrait img,
+  .marquee__item,
+  .faq__question,
+  .faq__symbol,
+  .faq__answer-panel,
+  .site-footer__up,
+  .site-footer__back,
+  .page-state button { transition-duration: .01ms; }
 }
