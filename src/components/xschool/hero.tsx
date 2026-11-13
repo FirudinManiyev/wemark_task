@@ -15,7 +15,8 @@ export function Hero({ title, image }: HeroProps) {
           src={image}
           alt=""
           fill
-          priority
+          loading="eager"
+          fetchPriority="high"
           sizes="100vw"
         />
       )}

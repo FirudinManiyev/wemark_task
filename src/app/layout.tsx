@@ -4,7 +4,18 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "xSchool | Wemark",
-  description: "Discover xSchool by Wemark, a school for the next generation of marketing leaders.",
+  description: "Explore xSchool by Wemark: practical programs for the next generation of marketing leaders.",
+  openGraph: {
+    title: "xSchool | Wemark",
+    description: "Practical marketing leadership programs by Wemark.",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary",
+    title: "xSchool | Wemark",
+    description: "Practical marketing leadership programs by Wemark.",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

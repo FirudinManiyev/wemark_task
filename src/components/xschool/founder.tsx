@@ -15,7 +15,7 @@ export function Founder({ founders }: FounderProps) {
         founders.map((founder, index) => (
           <div className="founder__row" key={`${founder.name}-${index}`}>
             <div className="founder__portrait">
-              <Image src={founder.image} alt={founder.name} fill sizes="(max-width: 767px) 90vw, 38vw" />
+              <Image src={founder.image} alt={founder.name} fill sizes="(max-width: 767px) calc(100vw - 40px), (max-width: 1100px) 520px, 38vw" />
               <span className="founder__caption">{founder.name} - {founder.position}</span>
             </div>
             <div className="founder__body">
