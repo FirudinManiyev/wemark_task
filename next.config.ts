@@ -1,7 +1,17 @@
 import type { NextConfig } from "next";
 
+const apiUrl = process.env.XSCHOOL_API_URL;
+
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: apiUrl
+      ? [{
+        protocol: "https",
+        hostname: new URL(apiUrl).hostname,
+        pathname: "/media/**",
+      }]
+      : [],
+  },
   turbopack: {
     rules: {
       "*.css": {
