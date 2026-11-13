@@ -18,7 +18,7 @@ Sayt `http://localhost:3000` ünvanında açılır.
 
 ## Environment
 
-`XSCHOOL_API_URL` — xSchool API endpoint-i. Lokal mühitdə `.env.local` faylında, Vercel-də isə layihənin Environment Variables bölməsində təyin olunmalıdır. Nümunə dəyər `.env.example` faylındadır.
+`XSCHOOL_API_URL` — xSchool API endpoint-i üçün istəyə bağlı override. Təyin edilmədikdə layihə hazırkı açıq xSchool API endpoint-indən istifadə edir. Fərqli endpoint üçün lokal mühitdə `.env.local` faylında, Vercel-də isə Environment Variables bölməsində təyin edin. Nümunə `.env.example` faylındadır.
 
 ## Production build
 

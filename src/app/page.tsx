@@ -1,3 +1,4 @@
+import { connection } from "next/server";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { About } from "@/components/xschool/about";
 import { Faq } from "@/components/xschool/faq";
@@ -9,6 +10,7 @@ import { getXSchoolData } from "@/lib/api/xschool";
 import { cleanRichText } from "@/lib/rich-text";
 
 export default async function Home() {
+  await connection();
   const data = await getXSchoolData();
 
   return (

@@ -1,3 +1,5 @@
+import { DEFAULT_XSCHOOL_API_URL } from "./config";
+
 export interface XSchoolImage {
   image: string;
 }
@@ -87,8 +89,7 @@ function isXSchoolData(value: unknown): value is XSchoolData {
 }
 
 export async function getXSchoolData(): Promise<XSchoolData> {
-  const url = process.env.XSCHOOL_API_URL;
-  if (!url) throw new Error("XSCHOOL_API_URL is not configured");
+  const url = process.env.XSCHOOL_API_URL?.trim() || DEFAULT_XSCHOOL_API_URL;
 
   const response = await fetch(url, {
     cache: "no-store",
